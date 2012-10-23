@@ -32,6 +32,8 @@ class Dijkstra
     @unoptimized_nodes.delete_if{|x| x == source}
     while @unoptimized_nodes.length > 0
       self.step_forward
+      debugger
+      puts 'a'
     end
     @vertices.each do |vert|
       vertex = vert[0]
