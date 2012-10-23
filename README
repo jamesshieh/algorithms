@@ -1,6 +1,6 @@
 A collection of practice algorithms that I've implemented
 
-Dijkstra's Shortest Path Algorithm (Ruby)
+Dijkstra's Shortest Path Algorithm (Ruby, Go)
 Mergesort (Ruby)
 Quicksort (Ruby)
 Conseq Series algo to find the longest series of conseq numbers. Exercise 6.1 in berkeley CS170 textbook
