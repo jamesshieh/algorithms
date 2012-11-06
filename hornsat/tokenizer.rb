@@ -17,15 +17,15 @@ class Tokenizer
     input = raw
     regexp = Regexp.new('\A[A-Zv\^\&\!\~\|\-\>\<\(\)\ \[\]\{\}\,\+]*\z')
     if input.validate(regexp)
-      input = input.gsub(/v/, "|")
-      input = input.gsub(/\^/, "&")
-      input = input.gsub(/\~/, "!")
-      input = input.gsub(/\-\>/, ">")
-      input = input.gsub(/\<\-/, "<")
-      input = input.gsub(/\[\{/, "(")
-      input = input.gsub(/\]\}/, ")")
-      input = input.gsub(/\<\-\>/, "+")
-      input = input.gsub(/\<\>/, "+")
+      input.gsub!(/v/, "|")
+      input.gsub!(/\^/, "&")
+      input.gsub!(/\~/, "!")
+      input.gsub!(/\-\>/, ">")
+      input.gsub!(/\<\-/, "<")
+      input.gsub!(/\[\{/, "(")
+      input.gsub!(/\]\}/, ")")
+      input.gsub!(/\<\-\>/, "+")
+      input.gsub!(/\<\>/, "+")
       return input
     else
       raise "Invalid input. Only the characters \"A-Z ^ & v | ~ () [] {} < - >\" are allowed"

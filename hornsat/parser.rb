@@ -3,8 +3,8 @@ require './lexer'
 # Parser for logic statements
 
 class Parser
-  attr_accessor :truth_table
-  
+  attr_accessor :truth_table, :sub_problems
+
   def initialize(input)
     lexicon = Lexer.new(input)
     @statement_hash = lexicon.statement_hash
@@ -13,7 +13,23 @@ class Parser
   end
 
   def define_sub_problems
-    
+    id = 0
+    @statement_hash.each do |clause| # clauses broken out
+      max = clause.keys.max # max nesting level evaluates first
+      while max >= 0
+        current = clause[max]
+        current.each do |k|
+          if k != ";"
+            @sub_problems[id] = [] if !@sub_problems.has_key?(id)
+            @sub_problems[id] << k
+          else
+            id += 1
+          end
+        end
+        id += 1
+        max -= 1
+      end
+    end
   end
 
   def set_givens
@@ -37,7 +53,7 @@ class Parser
         sub_problem = clause[max]
         if sub_problem.length < 3
         end
-      end     
+      end
     end
   end
 

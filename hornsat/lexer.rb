@@ -17,9 +17,9 @@ class Lexer
       "|"=>"|",
       "&"=>"&",
       "!"=>"!",
-      "("=>"(", 
+      "("=>"(",
       ")"=>")",
-      "+"=>"+", 
+      "+"=>"+",
       "<"=>"<",
       ">"=>">"
     }
@@ -28,7 +28,7 @@ class Lexer
     end
     return lexemes
   end
-      
+ 
 
   def create_truth_table(key)
     variables = {}

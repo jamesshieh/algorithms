@@ -11,8 +11,12 @@ puts "IMPLIES: -> or <-"
 puts "NESTING: () or []"
 puts "NEGATION: ~ or !"
 puts "Please enter your statement:"
-input = Parser.new(gets.chomp)
-input.solve
-puts input.truth_table
+
+test = "((AvB)&(C&E))->(D&F),A,!B, A->C, D&E&F"
+
+#input = Parser.new(gets.chomp)
+input = Parser.new(test)
+input.define_sub_problems
+puts input.sub_problems
 
 
