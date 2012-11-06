@@ -6,12 +6,13 @@ puts "Valid literals: A-Z"
 puts "Valid Operators:"
 puts "AND: ^ or &"
 puts "OR: v or |"
+puts "IFF: <-> or <>"
 puts "IMPLIES: -> or <-"
 puts "NESTING: () or []"
 puts "NEGATION: ~ or !"
 puts "Please enter your statement:"
-input = Parser.new(gets)
-solver(input)
+input = Parser.new(gets.chomp)
+input.solve
+puts input.truth_table
 
-def solver(x)
 

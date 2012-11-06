@@ -3,4 +3,7 @@ A collection of practice algorithms that I've implemented
 Dijkstra's Shortest Path Algorithm (Ruby, Go)
 Mergesort (Ruby)
 Quicksort (Ruby)
+Prim's MST (Ruby)
+Kruskal MST (Ruby)
 Conseq Series algo to find the longest series of conseq numbers. Exercise 6.1 in berkeley CS170 textbook
+Horn Sat Symbolic Logic Solver

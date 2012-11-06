@@ -7,37 +7,57 @@ class Tokenizer
 
   def initialize(x)
     @statement = regexp(x)
-    @statement_hash = self.tokenize
+    @statement_hash = self.tokenize(@statement)
   end
 
   # Validate inputs and return error if invalid characters are passed.
   # Standardize characters for easier processing in lexer
 
-  def regexp(x)
-    regex = Regexp.new('\A[A-Zv\^\&\!\~\|\-\>\<\(\)\ \[\]\{\}\,]*\z')
-    if x.validate(regex)
-      x.gsub(/v/, "|")
-      x.gsub(/\^/, "&")
-      x.gsub(/\~/, "!")
-      x.gsub(/->/, ">")
-      x.gsub(/<-/, "<")
-      x.gsub(/\[\{/, "(")
-      x.gsub(/\]\}/, ")")
-      return x
+  def regexp(raw)
+    input = raw
+    regexp = Regexp.new('\A[A-Zv\^\&\!\~\|\-\>\<\(\)\ \[\]\{\}\,\+]*\z')
+    if input.validate(regexp)
+      input = input.gsub(/v/, "|")
+      input = input.gsub(/\^/, "&")
+      input = input.gsub(/\~/, "!")
+      input = input.gsub(/\-\>/, ">")
+      input = input.gsub(/\<\-/, "<")
+      input = input.gsub(/\[\{/, "(")
+      input = input.gsub(/\]\}/, ")")
+      input = input.gsub(/\<\-\>/, "+")
+      input = input.gsub(/\<\>/, "+")
+      return input
     else
-      puts "Invalid input. Only the characters \"A-Z ^ & v | ~ () [] {}\" are allowed"
+      raise "Invalid input. Only the characters \"A-Z ^ & v | ~ () [] {} < - >\" are allowed"
+    end
+  end
+
+  # Validate grammar and syntax
+
+  def grammar_valid?(statement)
+    last = ""
+    r1 = Regexp.new('[A-Z]')
+    statement.each do |clauses|
+      last = ""
+      clauses.each do |word|
+        if word.validate(r1) and last.validate(r1)
+          raise "Invalid grammar"
+        end
+        last = word
+      end
     end
   end
 
   # Tokenize the input into individual tokens
 
-  def tokenize
+  def tokenize(raw)
     clausearr = []
     processed = []
-    clauses = @statement.split(",")
+    clauses = raw.split(",")
     clauses.each do |c|
-      clausearr << c.split(/\s*/)
+      clausearr << c.scan(/\S/)
     end
+    raise "Invalid input syntax" if !grammar_valid?(clausearr)
     clausearr.each do |carr|
       processed << process_parens(carr)
     end
@@ -52,14 +72,12 @@ class Tokenizer
     nests[0] = []
     carr.each do |k|
       if k == "("
-        nests[nl] << k
         nests[nl] << nl + 1
         nl += 1
         nests[nl] = [] if !nests.has_key?(nl)
       elsif k == ")"
         nests[nl] << ";"
         nl -= 1
-        nests[nl] << k
       else
         nests[nl] << k
       end
